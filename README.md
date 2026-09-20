@@ -21,26 +21,35 @@ One Jev call answers seven questions in parallel against the same state:
 - **Score** ×1 → risk level on the ordered rubric (Low / Medium / High / Critical)
 - **Choice** ×1 → `escalate` / `close` / `need_info`
 
-## Measured results (12-alert eval set)
+## Measured results (12-alert eval set, both deciders, equal work)
 
 ```
-schema validity    12/12  100.0%   bar 100%   PASS
-disposition match  10/12   83.3%   bar  80%   PASS
-evidence grounded  50/50  100.0%
-  clear      8/8
-  ambiguous  2/4
-
-head to head
-  jev   median  429 ms   total cost $0.000427 for 12 alerts
-  llm   median 3052 ms   2.4 platform units
-  jev is 7.1x faster
-  agreement 9/12
+                      JEV            GATEWAY LLM
+  accuracy        10/12 (83%)        10/12 (83%)
+  schema valid    12/12              12/12
+  evidence        48/48              48/48
+  median decision   398 ms             6160 ms
+  total decision    4.8 s              74.2 s
+  cost for the set  $0.000426          2.4 platform units
+  agreement         10/12
 ```
 
-**The calibration is the interesting part.** Both misses arrived with low confidence
-(0.75 and 0.31); every correct call was 0.89–1.00. Routing anything below ~0.50 to a human
-would have caught one of the two misses without touching a single correct decision — which
-is the actual operating model for an L1 triage queue.
+Both arms answer the **same seven questions** against the same digest, so this is
+like-for-like. The result: **identical accuracy, 15.5x faster per decision, and a cost
+difference of roughly three orders of magnitude.**
+
+Reproduce it with `python evaluate.py --compare`.
+
+**Where Jev actually wins is speed and cost, not better answers** — on this set the two
+models tie on accuracy and agree on 10 of 12 alerts. The two misses are the same kind for
+both: ambiguous alerts pushed to `escalate` when ground truth was `need_info`. With n=12
+the accuracy comparison is not statistically meaningful in either direction; don't claim
+Jev is more accurate.
+
+**The calibration is the interesting part.** Jev's misses arrive with low confidence
+(0.31 and 0.75) while its correct calls sit at 0.89–1.00. Routing anything below ~0.50 to a
+human catches a miss without touching a single correct decision — which is the actual
+operating model for an L1 triage queue.
 
 ## Layout
 

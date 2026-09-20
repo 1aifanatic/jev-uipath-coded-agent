@@ -1,6 +1,6 @@
 [project]
 name = "aml-triage-agent"
-version = "0.2.0"
+version = "0.2.2"
 description = "AML alert triage: UiPath coded agent with TypeSafe Jev as the decision layer"
 authors = [{ name = "Naveen", email = "naveen.aifanatic@gmail.com" }]
 requires-python = ">=3.11"

@@ -25,12 +25,19 @@ Full design rationale in README.md.
 - Cost units are honest: Jev in dollars (documented $0.042/M input, output free), gateway
   LLM in platform units (documented 0.2/call) unless USD_PER_PLATFORM_UNIT is set.
 
-## Correction to the earlier 7x claim
-The original benchmark asked the LLM for ONE word while Jev answered SEVEN questions -
-unfair to the LLM on work, but it still lost on time. With both doing equal work the gap
-is LARGER: roughly 15-16x per decision. Also, on the original 12-alert set the LLM was
-MORE accurate than Jev (11/12 vs 10/12). Jev's case is speed and cost at comparable
-accuracy, plus calibrated confidence - not better answers. Do not overclaim this.
+## Correction to the earlier 7x claim - now resolved
+The original benchmark asked the LLM for ONE word while Jev answered SEVEN questions.
+That was unfair on work, and it also produced a misleading accuracy reading: the LLM
+scored 11/12 on the easy free-form question vs Jev's 10/12.
+
+Re-run with both deciders doing the SAME seven-question rubric task (v0.2.0):
+  accuracy      10/12 both - TIED
+  median        398ms (jev) vs 6160ms (llm) - 15.5x
+  total         4.8s vs 74.2s
+  cost          $0.000426 vs 2.4 platform units
+  agreement     10/12
+So the defensible claim is: same accuracy, 15.5x faster, far cheaper, with calibrated
+confidence on top. Do NOT claim Jev is more accurate - at n=12 it is a tie.
 
 ## What is NOT done (deliberately, per scope)
 - v2: Data Fabric entity customer lookup as an agent tool. Cut from v1 on purpose —

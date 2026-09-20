@@ -436,8 +436,13 @@ def _log_summary(state: State, r: Output, m: Metrics) -> None:
             L.append(f"    => {m.decider} is {m.cost_ratio}x cheaper")
         L.append(f"    agreement      {'yes' if m.agreement else 'NO - they disagree'}")
     L.append("=" * 62)
-    for line in L:
-        log.info(line)
+    # Orchestrator splits multi-line records and its RobotLogs timestamps collide at
+    # sub-millisecond resolution, so the block comes back scrambled in the job log either
+    # way. Numbering each line makes it sortable and makes scrambling obvious on screen.
+    for i, line in enumerate(L, 1):
+        log.info("SUMMARY[%02d] %s", i, line)
+    # One single-line record that always survives intact, for anything parsing the log.
+    log.info("SUMMARY_JSON %s", m.model_dump_json())
 
 
 # ------------------------------------------------------------------------- graph
