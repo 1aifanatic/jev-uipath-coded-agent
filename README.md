@@ -67,7 +67,7 @@ question is atomic. Asking Jev to count would be asking it to fail.
 uv venv --python 3.12 && uv pip install -e .
 cp .env.local .env            # plus UIPATH_URL / UIPATH_ACCESS_TOKEN
 uipath init
-uipath run agent -f evals/one.json
+uipath run agent -f evals/sample-escalate.json
 python evaluate.py
 ```
 
@@ -75,8 +75,50 @@ Deploy:
 
 ```bash
 uipath pack && uipath publish --my-workspace
-uipath invoke agent -f evals/one.json
+uipath invoke agent -f evals/sample-escalate.json
 ```
+
+## Input arguments
+
+| Argument | Type | Required | Notes |
+|---|---|---|---|
+| `alert_id` | string | **yes** | Free-form identifier, echoed into the result |
+| `customer` | string | **yes** | Name plus whatever profile context you have (jurisdiction, incorporation date) |
+| `narrative` | string | **yes** | The alert text. This is what the evidence quotes are checked against |
+| `account_age_days` | integer | no | Feeds the shell-company judgement |
+| `prior_alerts` | integer | no | Alert history on this customer |
+| `benchmark` | boolean | no, default `false` | Also runs an LLM-only arm and fills `metrics` for the head-to-head |
+
+Three ready-to-run inputs are in `evals/`: `sample-escalate.json`, `sample-close.json`,
+`sample-ambiguous.json`.
+
+## What you get back
+
+```json
+{
+  "alert_id": "AML-2026-0144",
+  "disposition": "escalate",
+  "disposition_confidence": 1.0,
+  "risk_level": "Critical",
+  "risk_score": 3.0,
+  "red_flags": { "structuring": 0.72, "rapid_pass_through": 0.97,
+                 "shell_company_indicators": 0.95, "high_risk_jurisdiction": 0.82,
+                 "purpose_mismatch": 0.81 },
+  "parties_extracted": ["Aurelia Holdings SA (Panama, nominee directors)", "Latvian bank"],
+  "rationale": "...",
+  "evidence": ["Single inbound transfer of USD 2,400,000 from a Latvian bank", "..."],
+  "rubric_version": "1.0.0",
+  "metrics": { "jev_latency_ms": 402, "jev_cost_usd": 3.5e-05,
+               "llm_latency_ms": 2420, "llm_disposition": "escalate", "agreement": true }
+}
+```
+
+**Where to look in UiPath:** the result does **not** appear in the job's Output Arguments
+panel — that field comes back empty for coded agents. Open the job's **Traces** view instead.
+The root `LangGraph` span carries the final output; `extract`, `decide` and `explain` appear
+as child spans, so you can see the digest handed to Jev and Jev's raw typed answers
+separately. The `assets_retrieve` span shows as redacted, which is the platform refusing to
+log the API key. Each LLM call also fires twelve ISO 42001 governance guardrail spans.
 
 ## Secrets
 
