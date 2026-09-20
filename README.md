@@ -87,10 +87,51 @@ uipath invoke agent -f evals/sample-escalate.json
 | `narrative` | string | **yes** | The alert text. This is what the evidence quotes are checked against |
 | `account_age_days` | integer | no | Feeds the shell-company judgement |
 | `prior_alerts` | integer | no | Alert history on this customer |
-| `benchmark` | boolean | no, default `false` | Also runs an LLM-only arm and fills `metrics` for the head-to-head |
+| `decider` | `"jev"` \| `"llm"` | no, default `"jev"` | **Which model makes the decisions.** Flip this to put the gateway LLM in Jev's seat |
+| `expected_disposition` | string | no | Ground truth, if you know it. Turns on the `ACCURACY CORRECT/WRONG` line in the log |
+| `benchmark` | boolean | no, default `false` | Also runs the *other* decider on the same alert and prints the comparison |
 
 Three ready-to-run inputs are in `evals/`: `sample-escalate.json`, `sample-close.json`,
 `sample-ambiguous.json`.
+
+## Switching the decider
+
+`decider` is the demo's main dial. Both arms answer **the same seven questions** against the
+same digest, so the comparison is like-for-like:
+
+```bash
+uipath run agent -f evals/sample-escalate.json          # jev decides (default)
+python -c "..."                                          # or set decider in the payload
+python evaluate.py --decider llm                         # whole set, LLM deciding
+python evaluate.py --compare                             # both, side by side
+```
+
+Every run logs a summary block:
+
+```
+==============================================================
+  ALERT            AML-2026-0144
+  DECIDER          JEV  (jev-latest)
+  DISPOSITION      escalate   confidence 1.00
+  RISK             Critical  (3.0)
+  ACCURACY         CORRECT   expected=escalate
+  DECISION TIME    522 ms
+  DECISION COST    $0.00003436   (818 in / 161 out)
+  TOTAL RUN TIME   29759 ms  (incl. extract + explain LLM calls)
+  ----------------------------------------------------------
+  COMPARED TO      LLM
+    disposition    escalate   CORRECT
+    time           8113 ms
+    cost           0.2 platform units
+    => jev is 15.54x faster
+    agreement      yes
+==============================================================
+```
+
+**On cost units.** Jev bills in dollars ($0.042 per million input tokens, output free) and is
+reported exactly. UiPath bills gateway LLM calls in *platform units* (0.2 per call, Standard
+tier), not dollars, so the log reports units rather than inventing a price. Set
+`USD_PER_PLATFORM_UNIT` in `.env` to your contracted rate and both sides print in dollars.
 
 ## What you get back
 

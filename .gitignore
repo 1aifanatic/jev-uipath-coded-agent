@@ -10,3 +10,4 @@ __uipath/
 *.nupkg
 CLAUDE.md
 AGENTS.md
+evals/compare-run.txt

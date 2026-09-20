@@ -1,374 +1,204 @@
-[
-  {
-    "alert_id": "AML-2026-0142",
-    "schema": true,
-    "hit": true,
-    "got": "escalate",
-    "want": "escalate",
-    "difficulty": "clear",
-    "risk_level": "High",
-    "confidence": 0.98,
-    "evidence_grounded": [
-      4,
-      4
-    ],
-    "red_flags": {
-      "structuring": 0.84,
-      "rapid_pass_through": 0.97,
-      "shell_company_indicators": 0.93,
-      "high_risk_jurisdiction": 0.78,
-      "purpose_mismatch": 0.9
+{
+  "jev": [
+    {
+      "alert_id": "AML-2026-0142",
+      "decider": "jev",
+      "schema": true,
+      "hit": true,
+      "got": "escalate",
+      "want": "escalate",
+      "difficulty": "clear",
+      "confidence": 0.98,
+      "evidence_grounded": [
+        4,
+        4
+      ],
+      "metrics": {
+        "decider": "jev",
+        "decision_latency_ms": 461,
+        "decision_input_tokens": 841,
+        "decision_output_tokens": 161,
+        "decision_cost_usd": 3.5322e-05,
+        "decision_platform_units": null,
+        "total_latency_ms": 14280,
+        "correct": true,
+        "other_decider": null,
+        "other_disposition": null,
+        "other_latency_ms": null,
+        "other_cost_usd": null,
+        "other_platform_units": null,
+        "other_correct": null,
+        "agreement": null,
+        "speedup": null,
+        "cost_ratio": null
+      }
     },
-    "rationale": "Escalation is warranted because multiple corroborating high-risk indicators are present: repeated near-identical inbound wires from unrelated Dubai remitters, rapid pass-through withdrawals within 48 hours, and outbound concentration to a single beneficiary in Cyprus, matching the model's high scores for structuring, rapid pass-through, shell company indicators, and high-risk jurisdiction. The declared purpose of agricultural equipment import has no supporting import documentation, creating a clear purpose-mismatch and increasing the suspicion of illicit layering or use of a shell structure, so investigator review is required.",
-    "metrics": {
-      "jev_latency_ms": 580,
-      "jev_input_tokens": 842,
-      "jev_cost_usd": 3.536e-05,
-      "llm_latency_ms": 2536,
-      "llm_disposition": "escalate",
-      "llm_platform_units": 0.2,
-      "agreement": true
-    }
-  },
-  {
-    "alert_id": "AML-2026-0143",
-    "schema": true,
-    "hit": true,
-    "got": "close",
-    "want": "close",
-    "difficulty": "clear",
-    "risk_level": "Low",
-    "confidence": 0.99,
-    "evidence_grounded": [
-      4,
-      4
-    ],
-    "red_flags": {
-      "structuring": 0.06,
-      "rapid_pass_through": 0.11,
-      "shell_company_indicators": 0.03,
-      "high_risk_jurisdiction": 0.08,
-      "purpose_mismatch": 0.08
+    {
+      "alert_id": "AML-2026-0143",
+      "decider": "jev",
+      "schema": true,
+      "hit": true,
+      "got": "close",
+      "want": "close",
+      "difficulty": "clear",
+      "confidence": 0.99,
+      "evidence_grounded": [
+        3,
+        3
+      ],
+      "metrics": {
+        "decider": "jev",
+        "decision_latency_ms": 361,
+        "decision_input_tokens": 854,
+        "decision_output_tokens": 159,
+        "decision_cost_usd": 3.5868e-05,
+        "decision_platform_units": null,
+        "total_latency_ms": 17166,
+        "correct": true,
+        "other_decider": null,
+        "other_disposition": null,
+        "other_latency_ms": null,
+        "other_cost_usd": null,
+        "other_platform_units": null,
+        "other_correct": null,
+        "agreement": null,
+        "speedup": null,
+        "cost_ratio": null
+      }
     },
-    "rationale": "The model determined this is a low-risk event with minimal red-flag scores and activity consistent with the customer's stated business purpose. The higher monthly deposit is explained by card settlement batches from the practice's payment processor and coincides with taking on two NHS orthodontic contracts for which documentation is on file. Given the clear business explanation and supporting documentation, closing the alert is appropriate.",
-    "metrics": {
-      "jev_latency_ms": 445,
-      "jev_input_tokens": 849,
-      "jev_cost_usd": 3.566e-05,
-      "llm_latency_ms": 2596,
-      "llm_disposition": "close",
-      "llm_platform_units": 0.2,
-      "agreement": true
+    {
+      "alert_id": "AML-2026-0144",
+      "decider": "jev",
+      "schema": true,
+      "hit": true,
+      "got": "escalate",
+      "want": "escalate",
+      "difficulty": "clear",
+      "confidence": 1.0,
+      "evidence_grounded": [
+        4,
+        4
+      ],
+      "metrics": {
+        "decider": "jev",
+        "decision_latency_ms": 355,
+        "decision_input_tokens": 834,
+        "decision_output_tokens": 161,
+        "decision_cost_usd": 3.5028e-05,
+        "decision_platform_units": null,
+        "total_latency_ms": 19083,
+        "correct": true,
+        "other_decider": null,
+        "other_disposition": null,
+        "other_latency_ms": null,
+        "other_cost_usd": null,
+        "other_platform_units": null,
+        "other_correct": null,
+        "agreement": null,
+        "speedup": null,
+        "cost_ratio": null
+      }
     }
-  },
-  {
-    "alert_id": "AML-2026-0144",
-    "schema": true,
-    "hit": true,
-    "got": "escalate",
-    "want": "escalate",
-    "difficulty": "clear",
-    "risk_level": "Critical",
-    "confidence": 1.0,
-    "evidence_grounded": [
-      5,
-      5
-    ],
-    "red_flags": {
-      "structuring": 0.69,
-      "rapid_pass_through": 0.96,
-      "shell_company_indicators": 0.94,
-      "high_risk_jurisdiction": 0.81,
-      "purpose_mismatch": 0.81
+  ],
+  "llm": [
+    {
+      "alert_id": "AML-2026-0142",
+      "decider": "llm",
+      "schema": true,
+      "hit": true,
+      "got": "escalate",
+      "want": "escalate",
+      "difficulty": "clear",
+      "confidence": 0.9,
+      "evidence_grounded": [
+        4,
+        4
+      ],
+      "metrics": {
+        "decider": "llm",
+        "decision_latency_ms": 5943,
+        "decision_input_tokens": 569,
+        "decision_output_tokens": 681,
+        "decision_cost_usd": null,
+        "decision_platform_units": 0.2,
+        "total_latency_ms": 20640,
+        "correct": true,
+        "other_decider": null,
+        "other_disposition": null,
+        "other_latency_ms": null,
+        "other_cost_usd": null,
+        "other_platform_units": null,
+        "other_correct": null,
+        "agreement": null,
+        "speedup": null,
+        "cost_ratio": null
+      }
     },
-    "rationale": "Escalation is warranted because the transaction pattern\u2014one large inbound USD 2,400,000 followed six hours later by six near-equal outbound transfers\u2014demonstrates strong placement and layering indicators and aligns with high scores for rapid pass-through and structuring. The funds originated from a Latvian bank and were routed to accounts in three different jurisdictions, triggering high-risk-jurisdiction and shell-company concerns while no commercial rationale was provided. The customer's refusal to provide source-of-funds documentation prevents resolution of the purpose mismatch and supports escalation for further investigation.",
-    "metrics": {
-      "jev_latency_ms": 428,
-      "jev_input_tokens": 823,
-      "jev_cost_usd": 3.457e-05,
-      "llm_latency_ms": 2608,
-      "llm_disposition": "escalate",
-      "llm_platform_units": 0.2,
-      "agreement": true
-    }
-  },
-  {
-    "alert_id": "AML-2026-0145",
-    "schema": true,
-    "hit": true,
-    "got": "close",
-    "want": "close",
-    "difficulty": "clear",
-    "risk_level": "Low",
-    "confidence": 0.99,
-    "evidence_grounded": [
-      5,
-      5
-    ],
-    "red_flags": {
-      "structuring": 0.13,
-      "rapid_pass_through": 0.57,
-      "shell_company_indicators": 0.02,
-      "high_risk_jurisdiction": 0.09,
-      "purpose_mismatch": 0.06
+    {
+      "alert_id": "AML-2026-0143",
+      "decider": "llm",
+      "schema": true,
+      "hit": true,
+      "got": "close",
+      "want": "close",
+      "difficulty": "clear",
+      "confidence": 0.9,
+      "evidence_grounded": [
+        4,
+        4
+      ],
+      "metrics": {
+        "decider": "llm",
+        "decision_latency_ms": 5653,
+        "decision_input_tokens": 580,
+        "decision_output_tokens": 487,
+        "decision_cost_usd": null,
+        "decision_platform_units": 0.2,
+        "total_latency_ms": 21604,
+        "correct": true,
+        "other_decider": null,
+        "other_disposition": null,
+        "other_latency_ms": null,
+        "other_cost_usd": null,
+        "other_platform_units": null,
+        "other_correct": null,
+        "agreement": null,
+        "speedup": null,
+        "cost_ratio": null
+      }
     },
-    "rationale": "The alert was closed because the transaction pattern and documentation indicate a legitimate, low-risk activity: funds were transferred from the customer's own account and immediately applied to a documented car purchase at a registered dealer. Most red-flag scores are low (structuring 0.13, shell company 0.02, high-risk jurisdiction 0.09, purpose mismatch 0.06), and the only moderate score (rapid_pass_through 0.57) is explained by a one-time retail payment rather than ongoing suspicious behavior. Given the matching invoice and direct source of funds, the activity is consistent with the stated business purpose and presents low risk, justifying closure.",
-    "metrics": {
-      "jev_latency_ms": 385,
-      "jev_input_tokens": 810,
-      "jev_cost_usd": 3.402e-05,
-      "llm_latency_ms": 3513,
-      "llm_disposition": "close",
-      "llm_platform_units": 0.2,
-      "agreement": true
+    {
+      "alert_id": "AML-2026-0144",
+      "decider": "llm",
+      "schema": true,
+      "hit": true,
+      "got": "escalate",
+      "want": "escalate",
+      "difficulty": "clear",
+      "confidence": 0.96,
+      "evidence_grounded": [
+        4,
+        4
+      ],
+      "metrics": {
+        "decider": "llm",
+        "decision_latency_ms": 6713,
+        "decision_input_tokens": 556,
+        "decision_output_tokens": 681,
+        "decision_cost_usd": null,
+        "decision_platform_units": 0.2,
+        "total_latency_ms": 25658,
+        "correct": true,
+        "other_decider": null,
+        "other_disposition": null,
+        "other_latency_ms": null,
+        "other_cost_usd": null,
+        "other_platform_units": null,
+        "other_correct": null,
+        "agreement": null,
+        "speedup": null,
+        "cost_ratio": null
+      }
     }
-  },
-  {
-    "alert_id": "AML-2026-0146",
-    "schema": true,
-    "hit": false,
-    "got": "escalate",
-    "want": "need_info",
-    "difficulty": "ambiguous",
-    "risk_level": "High",
-    "confidence": 0.75,
-    "evidence_grounded": [
-      4,
-      4
-    ],
-    "red_flags": {
-      "structuring": 0.28,
-      "rapid_pass_through": 0.26,
-      "shell_company_indicators": 0.08,
-      "high_risk_jurisdiction": 0.64,
-      "purpose_mismatch": 0.53
-    },
-    "rationale": "Escalation is appropriate because multiple corroborating red flags are present: a high-risk jurisdiction score (buyer in Nigeria), a concentrated pattern of twelve inbound payments totaling USD 340,000 from a single counterparty over five weeks, and the sudden use of a third\u2011party payment agent in the UAE. The inconsistency of supporting documentation \u2014 invoices are provided but the agent\u2011routed transactions' invoices do not match the amounts received \u2014 together with elevated purpose\u2011mismatch and rapid pass\u2011through scores, warrant enhanced review.",
-    "metrics": {
-      "jev_latency_ms": 625,
-      "jev_input_tokens": 875,
-      "jev_cost_usd": 3.675e-05,
-      "llm_latency_ms": 4627,
-      "llm_disposition": "need_info",
-      "llm_platform_units": 0.2,
-      "agreement": false
-    }
-  },
-  {
-    "alert_id": "AML-2026-0147",
-    "schema": true,
-    "hit": true,
-    "got": "need_info",
-    "want": "need_info",
-    "difficulty": "ambiguous",
-    "risk_level": "Medium",
-    "confidence": 0.4,
-    "evidence_grounded": [
-      4,
-      4
-    ],
-    "red_flags": {
-      "structuring": 0.64,
-      "rapid_pass_through": 0.2,
-      "shell_company_indicators": 0.24,
-      "high_risk_jurisdiction": 0.14,
-      "purpose_mismatch": 0.2
-    },
-    "rationale": "The decision 'need_info' follows from a medium-level structuring indicator: multiple regular monthly inbound payments clustered just below the GBP 10,000 threshold triggered the monitoring rule. Concurrently, outbound activity aligns with operating costs and there are consultancy agreements for three of four clients, which are plausible legitimising factors. However, the absence of documentation for one client and the near-threshold pattern justify requesting further information to confirm the legitimacy of the inflows.",
-    "metrics": {
-      "jev_latency_ms": 430,
-      "jev_input_tokens": 856,
-      "jev_cost_usd": 3.595e-05,
-      "llm_latency_ms": 3299,
-      "llm_disposition": "need_info",
-      "llm_platform_units": 0.2,
-      "agreement": true
-    }
-  },
-  {
-    "alert_id": "AML-2026-0148",
-    "schema": true,
-    "hit": true,
-    "got": "escalate",
-    "want": "escalate",
-    "difficulty": "clear",
-    "risk_level": "High",
-    "confidence": 1.0,
-    "evidence_grounded": [
-      5,
-      5
-    ],
-    "red_flags": {
-      "structuring": 0.67,
-      "rapid_pass_through": 0.9,
-      "shell_company_indicators": 0.96,
-      "high_risk_jurisdiction": 0.52,
-      "purpose_mismatch": 0.96
-    },
-    "rationale": "Multiple high-scoring red flags \u2014 notably rapid_pass_through (0.9), shell_company_indicators (0.96), structuring (0.67), and purpose_mismatch (0.96) \u2014 are corroborated by the customer behavior and absence of supporting documentation, which collectively justify escalation. The account received many small inbound transfers from individuals across multiple countries and the aggregated funds were converted to cryptocurrency within days, a pattern consistent with layering/rapid pass-through. The stated business purpose (freight forwarding) is unsupported by any contracts, assets, or employees on file, increasing the likelihood of illicit activity and warranting further investigation.",
-    "metrics": {
-      "jev_latency_ms": 394,
-      "jev_input_tokens": 842,
-      "jev_cost_usd": 3.536e-05,
-      "llm_latency_ms": 2543,
-      "llm_disposition": "escalate",
-      "llm_platform_units": 0.2,
-      "agreement": true
-    }
-  },
-  {
-    "alert_id": "AML-2026-0149",
-    "schema": true,
-    "hit": true,
-    "got": "close",
-    "want": "close",
-    "difficulty": "clear",
-    "risk_level": "Low",
-    "confidence": 0.89,
-    "evidence_grounded": [
-      4,
-      4
-    ],
-    "red_flags": {
-      "structuring": 0.09,
-      "rapid_pass_through": 0.21,
-      "shell_company_indicators": 0.04,
-      "high_risk_jurisdiction": 0.15,
-      "purpose_mismatch": 0.06
-    },
-    "rationale": "The activity matches a recurring seasonal pattern and is supported by supplier invoices, leading to a Low risk classification and a decision to close. Model red flag scores are low (highest 0.21) and no material anomalies were identified. The presence of one newly registered supplier is noted but does not outweigh the consistent historical inflows and documentation.",
-    "metrics": {
-      "jev_latency_ms": 435,
-      "jev_input_tokens": 848,
-      "jev_cost_usd": 3.562e-05,
-      "llm_latency_ms": 3718,
-      "llm_disposition": "close",
-      "llm_platform_units": 0.2,
-      "agreement": true
-    }
-  },
-  {
-    "alert_id": "AML-2026-0150",
-    "schema": true,
-    "hit": false,
-    "got": "escalate",
-    "want": "need_info",
-    "difficulty": "ambiguous",
-    "risk_level": "Medium",
-    "confidence": 0.31,
-    "evidence_grounded": [
-      3,
-      3
-    ],
-    "red_flags": {
-      "structuring": 0.13,
-      "rapid_pass_through": 0.11,
-      "shell_company_indicators": 0.15,
-      "high_risk_jurisdiction": 0.77,
-      "purpose_mismatch": 0.16
-    },
-    "rationale": "The decision to escalate reflects a medium risk profile: a plausible legitimate explanation is present (customer-supplied repair contract and photos) but a high-risk-jurisdiction indicator (score 0.77) and associated address links to entities with prior sanctions history raise heightened concerns. Given the large outbound payment amount and the shared registered address with entities delisted from sanctions in 2024, human review is warranted to verify counterparty identity, documentation authenticity, and address history before clearing the transaction.",
-    "metrics": {
-      "jev_latency_ms": 411,
-      "jev_input_tokens": 852,
-      "jev_cost_usd": 3.578e-05,
-      "llm_latency_ms": 2804,
-      "llm_disposition": "need_info",
-      "llm_platform_units": 0.2,
-      "agreement": false
-    }
-  },
-  {
-    "alert_id": "AML-2026-0151",
-    "schema": true,
-    "hit": true,
-    "got": "escalate",
-    "want": "escalate",
-    "difficulty": "clear",
-    "risk_level": "High",
-    "confidence": 0.9,
-    "evidence_grounded": [
-      4,
-      4
-    ],
-    "red_flags": {
-      "structuring": 0.42,
-      "rapid_pass_through": 0.39,
-      "shell_company_indicators": 0.54,
-      "high_risk_jurisdiction": 0.87,
-      "purpose_mismatch": 0.73
-    },
-    "rationale": "The alert was escalated because multiple corroborating red flags indicate heightened ML/TF risk: the high-value sale was split into three payments from entities that are not the named buyer, all of which are registered at the same address in a high-risk jurisdiction (BVI), consistent with shell company and structuring risks. The customer provided only a brief statement that this is \u201cnormal practice,\u201d with no supporting documentation, increasing concern about rapid pass-through and purpose mismatch. Given the combination of high-risk jurisdiction, shell-company indicators, and absence of independent justification, escalation for further investigation is warranted.",
-    "metrics": {
-      "jev_latency_ms": 457,
-      "jev_input_tokens": 841,
-      "jev_cost_usd": 3.532e-05,
-      "llm_latency_ms": 3426,
-      "llm_disposition": "escalate",
-      "llm_platform_units": 0.2,
-      "agreement": true
-    }
-  },
-  {
-    "alert_id": "AML-2026-0152",
-    "schema": true,
-    "hit": true,
-    "got": "close",
-    "want": "close",
-    "difficulty": "clear",
-    "risk_level": "Low",
-    "confidence": 0.99,
-    "evidence_grounded": [
-      4,
-      4
-    ],
-    "red_flags": {
-      "structuring": 0.05,
-      "rapid_pass_through": 0.07,
-      "shell_company_indicators": 0.02,
-      "high_risk_jurisdiction": 0.07,
-      "purpose_mismatch": 0.07
-    },
-    "rationale": "Closed because the activity is consistent with the stated business purpose and is fully supported by documentation (sale deed, probate papers and buyer identity); funds were then placed in a fixed deposit at the same institution. All computed red flag scores are very low across structuring, rapid pass-through, shell indicators, high-risk jurisdiction and purpose mismatch, indicating no broader suspicious pattern beyond an unusually large one-off deposit. The alert was size-driven (60x the customer's average balance) but the documentation and account behavior support a legitimate inheritance sale.",
-    "metrics": {
-      "jev_latency_ms": 414,
-      "jev_input_tokens": 840,
-      "jev_cost_usd": 3.528e-05,
-      "llm_latency_ms": 2733,
-      "llm_disposition": "close",
-      "llm_platform_units": 0.2,
-      "agreement": true
-    }
-  },
-  {
-    "alert_id": "AML-2026-0153",
-    "schema": true,
-    "hit": true,
-    "got": "need_info",
-    "want": "need_info",
-    "difficulty": "ambiguous",
-    "risk_level": "Medium",
-    "confidence": 0.62,
-    "evidence_grounded": [
-      4,
-      4
-    ],
-    "red_flags": {
-      "structuring": 0.26,
-      "rapid_pass_through": 0.3,
-      "shell_company_indicators": 0.32,
-      "high_risk_jurisdiction": 0.31,
-      "purpose_mismatch": 0.34
-    },
-    "rationale": "A single medium-level red flag is present because the related entity has overdue registry filings and the intercompany funding lacks a written loan agreement, but the transaction pattern (regular inbound funds and outbound payroll/port fees) is consistent with a plausible logistics operation. Given that a credible business explanation exists but key documentation is missing, the case requires additional information to confirm legitimacy before escalation or closure. Requesting the intercompany loan agreement, the related company's registry filings, and supporting source-of-funds documentation addresses the specific gaps identified.",
-    "metrics": {
-      "jev_latency_ms": 423,
-      "jev_input_tokens": 888,
-      "jev_cost_usd": 3.73e-05,
-      "llm_latency_ms": 3804,
-      "llm_disposition": "escalate",
-      "llm_platform_units": 0.2,
-      "agreement": false
-    }
-  }
-]
+  ]
+}
