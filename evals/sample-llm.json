@@ -5,6 +5,6 @@
   "account_age_days": 47,
   "prior_alerts": 2,
   "benchmark": true,
-  "decider": "jev",
+  "decider": "llm",
   "expected_disposition": "escalate"
 }

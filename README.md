@@ -109,10 +109,10 @@ Three ready-to-run inputs are in `evals/`: `sample-escalate.json`, `sample-close
 same digest, so the comparison is like-for-like:
 
 ```bash
-uipath run agent -f evals/sample-escalate.json          # jev decides (default)
-python -c "..."                                          # or set decider in the payload
-python evaluate.py --decider llm                         # whole set, LLM deciding
-python evaluate.py --compare                             # both, side by side
+uipath run agent -f evals/sample-escalate.json   # jev decides (default)
+uipath run agent -f evals/sample-llm.json        # same alert, LLM decides
+python evaluate.py --decider llm                 # whole set, LLM deciding
+python evaluate.py --compare                     # both, side by side
 ```
 
 Every run logs a summary block:
@@ -124,15 +124,15 @@ Every run logs a summary block:
   DISPOSITION      escalate   confidence 1.00
   RISK             Critical  (3.0)
   ACCURACY         CORRECT   expected=escalate
-  DECISION TIME    522 ms
-  DECISION COST    $0.00003436   (818 in / 161 out)
-  TOTAL RUN TIME   29759 ms  (incl. extract + explain LLM calls)
+  DECISION TIME    625 ms
+  DECISION COST    $0.00003482   (829 in / 161 out)
+  TOTAL RUN TIME   27854 ms  (incl. extract + explain LLM calls)
   ----------------------------------------------------------
   COMPARED TO      LLM
     disposition    escalate   CORRECT
-    time           8113 ms
+    time           6224 ms
     cost           0.2 platform units
-    => jev is 15.54x faster
+    => jev is 9.96x faster
     agreement      yes
 ==============================================================
 ```
@@ -158,13 +158,24 @@ tier), not dollars, so the log reports units rather than inventing a price. Set
   "rationale": "...",
   "evidence": ["Single inbound transfer of USD 2,400,000 from a Latvian bank", "..."],
   "rubric_version": "1.0.0",
-  "metrics": { "jev_latency_ms": 402, "jev_cost_usd": 3.5e-05,
-               "llm_latency_ms": 2420, "llm_disposition": "escalate", "agreement": true }
+  "decider": "jev",
+  "metrics": {
+    "decider": "jev", "decision_latency_ms": 625, "decision_input_tokens": 829,
+    "decision_output_tokens": 161, "decision_cost_usd": 3.4818e-05,
+    "total_latency_ms": 27854, "correct": true,
+    "other_decider": "llm", "other_disposition": "escalate", "other_latency_ms": 6224,
+    "other_platform_units": 0.2, "other_correct": true,
+    "agreement": true, "speedup": 9.96
+  }
 }
 ```
 
 **Where to look in UiPath:** the result does **not** appear in the job's Output Arguments
-panel — that field comes back empty for coded agents. Open the job's **Traces** view instead.
+panel — that field comes back empty for coded agents. In the job log, look for the
+`SUMMARY[01]`…`SUMMARY[16]` lines (numbered because Orchestrator splits multi-line records
+and its timestamps collide, so they arrive out of order — sort by the number) and the single
+`SUMMARY_JSON` record that always survives intact. For the full picture open the job's
+**Traces** view.
 The root `LangGraph` span carries the final output; `extract`, `decide` and `explain` appear
 as child spans, so you can see the digest handed to Jev and Jev's raw typed answers
 separately. The `assets_retrieve` span shows as redacted, which is the platform refusing to
