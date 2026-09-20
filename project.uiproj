@@ -1,0 +1,6 @@
+{
+  "ProjectType": "Agent",
+  "Name": "aml-triage-agent",
+  "Description": "AML alert triage: UiPath coded agent with TypeSafe Jev as the decision layer",
+  "MainFile": null
+}

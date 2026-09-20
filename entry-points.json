@@ -1,0 +1,248 @@
+{
+    "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+    "$id": "entry-points.json",
+    "entryPoints": [
+        {
+            "filePath": "agent",
+            "uniqueId": "61fa7a8d-0cb9-482a-a5b9-57f69fa39fc2",
+            "type": "agent",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "alert_id": {
+                        "title": "Alert Id",
+                        "type": "string"
+                    },
+                    "customer": {
+                        "title": "Customer",
+                        "type": "string"
+                    },
+                    "narrative": {
+                        "title": "Narrative",
+                        "type": "string"
+                    },
+                    "account_age_days": {
+                        "type": "integer"
+                    },
+                    "prior_alerts": {
+                        "type": "integer"
+                    },
+                    "benchmark": {
+                        "default": false,
+                        "description": "Also run an LLM-only arm for comparison.",
+                        "title": "Benchmark",
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "alert_id",
+                    "customer",
+                    "narrative"
+                ]
+            },
+            "output": {
+                "type": "object",
+                "properties": {
+                    "alert_id": {
+                        "title": "Alert Id",
+                        "type": "string"
+                    },
+                    "disposition": {
+                        "enum": [
+                            "escalate",
+                            "close",
+                            "need_info"
+                        ],
+                        "title": "Disposition",
+                        "type": "string"
+                    },
+                    "disposition_confidence": {
+                        "title": "Disposition Confidence",
+                        "type": "number"
+                    },
+                    "risk_level": {
+                        "title": "Risk Level",
+                        "type": "string"
+                    },
+                    "risk_score": {
+                        "title": "Risk Score",
+                        "type": "number"
+                    },
+                    "red_flags": {
+                        "additionalProperties": {
+                            "type": "number"
+                        },
+                        "title": "Red Flags",
+                        "type": "object"
+                    },
+                    "parties_extracted": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "title": "Parties Extracted",
+                        "type": "array"
+                    },
+                    "rationale": {
+                        "title": "Rationale",
+                        "type": "string"
+                    },
+                    "evidence": {
+                        "items": {
+                            "type": "string"
+                        },
+                        "title": "Evidence",
+                        "type": "array"
+                    },
+                    "rubric_version": {
+                        "title": "Rubric Version",
+                        "type": "string"
+                    },
+                    "metrics": {
+                        "properties": {
+                            "jev_latency_ms": {
+                                "title": "Jev Latency Ms",
+                                "type": "integer"
+                            },
+                            "jev_input_tokens": {
+                                "title": "Jev Input Tokens",
+                                "type": "integer"
+                            },
+                            "jev_cost_usd": {
+                                "title": "Jev Cost Usd",
+                                "type": "number"
+                            },
+                            "llm_latency_ms": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Llm Latency Ms"
+                            },
+                            "llm_disposition": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Llm Disposition"
+                            },
+                            "llm_platform_units": {
+                                "anyOf": [
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Llm Platform Units"
+                            },
+                            "agreement": {
+                                "anyOf": [
+                                    {
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Agreement"
+                            }
+                        },
+                        "required": [
+                            "jev_latency_ms",
+                            "jev_input_tokens",
+                            "jev_cost_usd"
+                        ],
+                        "title": "Benchmark",
+                        "type": "object"
+                    }
+                },
+                "required": [
+                    "alert_id",
+                    "disposition",
+                    "disposition_confidence",
+                    "risk_level",
+                    "risk_score",
+                    "red_flags",
+                    "parties_extracted",
+                    "rationale",
+                    "evidence",
+                    "rubric_version"
+                ]
+            },
+            "graph": {
+                "nodes": [
+                    {
+                        "id": "__start__",
+                        "name": "__start__",
+                        "type": "__start__",
+                        "subgraph": null,
+                        "metadata": {}
+                    },
+                    {
+                        "id": "extract",
+                        "name": "extract",
+                        "type": "node",
+                        "subgraph": null,
+                        "metadata": {}
+                    },
+                    {
+                        "id": "decide",
+                        "name": "decide",
+                        "type": "node",
+                        "subgraph": null,
+                        "metadata": {}
+                    },
+                    {
+                        "id": "explain",
+                        "name": "explain",
+                        "type": "node",
+                        "subgraph": null,
+                        "metadata": {}
+                    },
+                    {
+                        "id": "__end__",
+                        "name": "__end__",
+                        "type": "__end__",
+                        "subgraph": null,
+                        "metadata": {}
+                    }
+                ],
+                "edges": [
+                    {
+                        "source": "__start__",
+                        "target": "extract",
+                        "label": null
+                    },
+                    {
+                        "source": "decide",
+                        "target": "explain",
+                        "label": null
+                    },
+                    {
+                        "source": "extract",
+                        "target": "decide",
+                        "label": null
+                    },
+                    {
+                        "source": "explain",
+                        "target": "__end__",
+                        "label": null
+                    }
+                ]
+            }
+        }
+    ]
+}
