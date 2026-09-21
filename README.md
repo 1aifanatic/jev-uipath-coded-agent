@@ -16,6 +16,10 @@ agent splits the work along that seam: the language model reads and writes, and 
 
 ![Architecture: the LLM extracts and explains, Jev makes every decision](docs/architecture.svg)
 
+📐 **[docs/diagrams.md](docs/diagrams.md)** — Mermaid views of the architecture, the run
+sequence, and how it slots into an operations process, plus the other domains this pattern
+fits.
+
 ---
 
 ## The split
