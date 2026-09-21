@@ -78,9 +78,16 @@ python evaluate.py --compare                      # the whole set, both deciders
 Deploy to Orchestrator:
 
 ```bash
+uipath init                          # ALWAYS re-run after changing the Input model
 uipath pack && uipath publish --my-workspace
 uipath invoke agent -f evals/sample-escalate.json
 ```
+
+> ⚠️ **`uipath pack` does not regenerate `entry-points.json`.** Only `uipath init` does. If
+> you add a field to `Input` and pack without re-running init, the package ships a stale
+> schema: the runtime still accepts the new field when you pass it with `-f`, but the
+> Orchestrator **Start job** form is built from that schema and won't show it. Symptom: your
+> new argument is invisible in the UI while working fine from the CLI.
 
 ---
 
@@ -224,6 +231,10 @@ Orchestrator asset `JevApiKey`. The fallback is in `main.py:_jev_key()`.
 - Orchestrator asset read from inside a serverless coded-agent run — **works**.
 - Published and run as `ServerlessJobType: PythonCodedAgent` — **Successful**.
 - All numbers in this README come from real runs, not estimates.
+
+## Licence
+
+MIT — see [LICENSE](LICENSE).
 
 ## Not built, on purpose
 

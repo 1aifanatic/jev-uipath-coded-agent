@@ -49,6 +49,12 @@ confidence on top. Do NOT claim Jev is more accurate - at n=12 it is a tie.
   locally and is what produced the numbers above.
 
 ## Known gotchas discovered here
+- `uipath pack` does NOT regenerate entry-points.json - only `uipath init` does. Versions
+  0.2.0-0.2.2 shipped a 6-argument schema while main.py had 8, so `decider` and
+  `expected_disposition` were invisible in the Orchestrator Start-job form even though the
+  runtime accepted them via `-f`. Fixed in 0.2.3. ALWAYS run `uipath init` after touching
+  the Input model, and verify with:
+  python -c "import json,zipfile;z=zipfile.ZipFile('.uipath/<pkg>.nupkg');print(list(json.loads(z.read('content/entry-points.json'))['entryPoints'][0]['input']['properties']))"
 - There are TWO CLIs: `uip` (Node, low-code/Maestro) and `uipath` (Python SDK, coded
   agents). Separate credential stores. Do not conflate them.
 - Tenant is on **staging.uipath.com**, not cloud.uipath.com.

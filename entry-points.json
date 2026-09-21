@@ -4,7 +4,7 @@
     "entryPoints": [
         {
             "filePath": "agent",
-            "uniqueId": "61fa7a8d-0cb9-482a-a5b9-57f69fa39fc2",
+            "uniqueId": "845d66b7-7982-4de0-884b-86f9309680f2",
             "type": "agent",
             "input": {
                 "type": "object",
@@ -27,9 +27,27 @@
                     "prior_alerts": {
                         "type": "integer"
                     },
+                    "decider": {
+                        "default": "jev",
+                        "description": "Which model makes the decisions: TypeSafe Jev, or the gateway LLM.",
+                        "enum": [
+                            "jev",
+                            "llm"
+                        ],
+                        "title": "Decider",
+                        "type": "string"
+                    },
+                    "expected_disposition": {
+                        "enum": [
+                            "escalate",
+                            "close",
+                            "need_info"
+                        ],
+                        "type": "string"
+                    },
                     "benchmark": {
                         "default": false,
-                        "description": "Also run an LLM-only arm for comparison.",
+                        "description": "Also run the other arm for comparison.",
                         "title": "Benchmark",
                         "type": "boolean"
                     }
@@ -97,45 +115,32 @@
                         "title": "Rubric Version",
                         "type": "string"
                     },
+                    "decider": {
+                        "title": "Decider",
+                        "type": "string"
+                    },
                     "metrics": {
+                        "description": "Cost, time and correctness for the decider that ran - and the other arm if asked.",
                         "properties": {
-                            "jev_latency_ms": {
-                                "title": "Jev Latency Ms",
+                            "decider": {
+                                "title": "Decider",
+                                "type": "string"
+                            },
+                            "decision_latency_ms": {
+                                "title": "Decision Latency Ms",
                                 "type": "integer"
                             },
-                            "jev_input_tokens": {
-                                "title": "Jev Input Tokens",
+                            "decision_input_tokens": {
+                                "default": 0,
+                                "title": "Decision Input Tokens",
                                 "type": "integer"
                             },
-                            "jev_cost_usd": {
-                                "title": "Jev Cost Usd",
-                                "type": "number"
+                            "decision_output_tokens": {
+                                "default": 0,
+                                "title": "Decision Output Tokens",
+                                "type": "integer"
                             },
-                            "llm_latency_ms": {
-                                "anyOf": [
-                                    {
-                                        "type": "integer"
-                                    },
-                                    {
-                                        "type": "null"
-                                    }
-                                ],
-                                "default": null,
-                                "title": "Llm Latency Ms"
-                            },
-                            "llm_disposition": {
-                                "anyOf": [
-                                    {
-                                        "type": "string"
-                                    },
-                                    {
-                                        "type": "null"
-                                    }
-                                ],
-                                "default": null,
-                                "title": "Llm Disposition"
-                            },
-                            "llm_platform_units": {
+                            "decision_cost_usd": {
                                 "anyOf": [
                                     {
                                         "type": "number"
@@ -145,7 +150,108 @@
                                     }
                                 ],
                                 "default": null,
-                                "title": "Llm Platform Units"
+                                "title": "Decision Cost Usd"
+                            },
+                            "decision_platform_units": {
+                                "anyOf": [
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Decision Platform Units"
+                            },
+                            "total_latency_ms": {
+                                "default": 0,
+                                "title": "Total Latency Ms",
+                                "type": "integer"
+                            },
+                            "correct": {
+                                "anyOf": [
+                                    {
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Correct"
+                            },
+                            "other_decider": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Other Decider"
+                            },
+                            "other_disposition": {
+                                "anyOf": [
+                                    {
+                                        "type": "string"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Other Disposition"
+                            },
+                            "other_latency_ms": {
+                                "anyOf": [
+                                    {
+                                        "type": "integer"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Other Latency Ms"
+                            },
+                            "other_cost_usd": {
+                                "anyOf": [
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Other Cost Usd"
+                            },
+                            "other_platform_units": {
+                                "anyOf": [
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Other Platform Units"
+                            },
+                            "other_correct": {
+                                "anyOf": [
+                                    {
+                                        "type": "boolean"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Other Correct"
                             },
                             "agreement": {
                                 "anyOf": [
@@ -158,14 +264,37 @@
                                 ],
                                 "default": null,
                                 "title": "Agreement"
+                            },
+                            "speedup": {
+                                "anyOf": [
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Speedup"
+                            },
+                            "cost_ratio": {
+                                "anyOf": [
+                                    {
+                                        "type": "number"
+                                    },
+                                    {
+                                        "type": "null"
+                                    }
+                                ],
+                                "default": null,
+                                "title": "Cost Ratio"
                             }
                         },
                         "required": [
-                            "jev_latency_ms",
-                            "jev_input_tokens",
-                            "jev_cost_usd"
+                            "decider",
+                            "decision_latency_ms"
                         ],
-                        "title": "Benchmark",
+                        "title": "Metrics",
                         "type": "object"
                     }
                 },
@@ -179,7 +308,8 @@
                     "parties_extracted",
                     "rationale",
                     "evidence",
-                    "rubric_version"
+                    "rubric_version",
+                    "decider"
                 ]
             },
             "graph": {
