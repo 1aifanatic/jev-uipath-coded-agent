@@ -4,5 +4,7 @@
   "narrative": "Received INR 4,200,000 from the sale of an inherited property. Sale deed, probate documentation and buyer identity are all on file and consistent. Funds subsequently moved to a fixed deposit at the same institution. The monitoring rule fired because the amount is 60x the customer's average balance.",
   "account_age_days": 5400,
   "prior_alerts": 0,
-  "benchmark": true
+  "benchmark": true,
+  "decider": "jev",
+  "expected_disposition": "close"
 }

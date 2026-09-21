@@ -100,6 +100,9 @@ uipath invoke agent -f evals/sample-escalate.json
 Ready-to-run inputs live in `evals/`: `sample-escalate.json`, `sample-close.json`,
 `sample-ambiguous.json`, `sample-llm.json`.
 
+📋 **[docs/test-examples.md](docs/test-examples.md)** — copy-paste values for every field,
+expected results for each, the full 12-alert reference table, and what the logs look like.
+
 ---
 
 ## Switching the decider
